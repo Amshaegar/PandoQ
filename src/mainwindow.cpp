@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->actionAbout_Qt, SIGNAL(triggered()),    qApp,   SLOT(aboutQt()));
+    connect(ui->actionAbout_Qt, SIGNAL(triggered()),    qApp,   SLOT(aboutQt()) );
+    connect(ui->actionExit,     SIGNAL(triggered()),    qApp,   SLOT(quit())    );
 }
 
 MainWindow::~MainWindow()
