@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
+#include <QProcess>
+#include <QDebug>
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +20,16 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    QProcess    *AboutPandocProcess;
+
+private slots:
+
+    /* About Pandoc Section */
+    void AboutPandocProcessStart();
+    void AboutPandocMessageBox( int ExitCode, QProcess::ExitStatus ExitStatus );
+    void AboutPandocProcessError( QProcess::ProcessError Error );
+
 };
 
 #endif // MAINWINDOW_H

@@ -156,6 +156,7 @@
     <property name="title">
      <string>About</string>
     </property>
+    <addaction name="actionAbout_Pandoc"/>
     <addaction name="actionAbout_Qt"/>
    </widget>
    <addaction name="menuFile"/>
@@ -185,6 +186,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionAbout_Pandoc">
+   <property name="text">
+    <string>About Pandoc</string>
    </property>
   </action>
  </widget>
