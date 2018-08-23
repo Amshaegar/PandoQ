@@ -21,17 +21,11 @@
 
 #include "pandocthread.hpp"
 
-PandocThread::PandocThread(QObject *parent) : QObject(parent)
+PandocThread::PandocThread(QObject *parent) : QObject(parent),
+                                              aboutPandocProcess(new QProcess(this))
 {
-    aboutPandocProcess = new QProcess(this);
-
-    connect(aboutPandocProcess, SIGNAL( finished( int, QProcess::ExitStatus ) ),    this,   SLOT( AboutPandocMessageBox( int, QProcess::ExitStatus ) )  );
-    connect(aboutPandocProcess, SIGNAL( error( QProcess::ProcessError )  ),         this,   SLOT( AboutPandocProcessError(QProcess::ProcessError) )     );
-}
-
-PandocThread::~PandocThread()
-{
-    delete aboutPandocProcess;
+    connect(aboutPandocProcess, SIGNAL( finished( int, QProcess::ExitStatus ) ),    this,   SLOT( AboutPandocInfo( int, QProcess::ExitStatus ) )  );
+    connect(aboutPandocProcess, SIGNAL( error( QProcess::ProcessError )  ),         this,   SLOT( ErrorHandler(QProcess::ProcessError) )     );
 }
 
 void PandocThread::AboutPandoc()
@@ -41,23 +35,23 @@ void PandocThread::AboutPandoc()
     aboutPandocProcess->start( "pandoc", arg );
 }
 
-void PandocThread::AboutPandocProcessError( QProcess::ProcessError Error )
+void PandocThread::ErrorHandler( QProcess::ProcessError Error )
 {
     if ( Error == QProcess::FailedToStart )
     {
-        emit AboutPandocMessage(tr("Can not start Pandoc proccess. Check the pandoc software availability."));
+        emit ErrorHappened(tr("Can not start Pandoc proccess. Check the pandoc software availability."));
     }
 }
 
-void PandocThread::AboutPandocMessageBox( int ExitCode, QProcess::ExitStatus ExitStatus )
+void PandocThread::AboutPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus )
 {
     if (ExitStatus == QProcess::CrashExit)
     {
-        emit AboutPandocMessage(tr("Pandoc crashed."));
+        emit ErrorHappened(tr("Pandoc crashed."));
     }
     else if (ExitCode != 0)
     {
-        emit AboutPandocMessage(tr("Pandoc showing version information failed."));
+        emit ErrorHappened(tr("Pandoc showing version information failed."));
     }
 
     QString message = aboutPandocProcess->readAllStandardOutput().data();

@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(pandocThreadWorker,     SIGNAL( AboutPandocMessage(QString) ), this,                 SLOT( aboutPandoc(QString) )   );
     connect(ui->actionAbout_PandoQ, SIGNAL( triggered() ),                 this,                 SLOT( aboutPandoQ()        )   );
     connect(ui->actionAbout_Qt,     SIGNAL( triggered() ),                 qApp,                 SLOT( aboutQt()            )   );
+
+    connect(pandocThreadWorker, SIGNAL( ErrorHappened(QString) ),   this,   SLOT( pandocThreadErrorHandler(QString))   );
 }
 
 MainWindow::~MainWindow()
@@ -71,4 +73,13 @@ void MainWindow::aboutPandoQ()
                              aboutPandoQText,
                              QMessageBox::Ok
                              );
+}
+
+void MainWindow::pandocThreadErrorHandler(QString errorMessage)
+{
+    QMessageBox::warning(this,
+                         tr("Error happened!"),
+                         errorMessage,
+                         QMessageBox::Ok
+                         );
 }

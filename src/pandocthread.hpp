@@ -29,20 +29,20 @@ class PandocThread : public QObject
 {
     Q_OBJECT
 
-    QProcess    *aboutPandocProcess;
+    QProcess*    aboutPandocProcess;
 
 
 public:
     explicit PandocThread(QObject *parent = nullptr);
-    ~PandocThread();
 
 signals:
     void AboutPandocMessage(QString message);
+    void ErrorHappened(QString message);
 
 private slots:
     void AboutPandoc();
-    void AboutPandocMessageBox( int ExitCode, QProcess::ExitStatus ExitStatus );
-    void AboutPandocProcessError( QProcess::ProcessError Error );
+    void AboutPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus );
+    void ErrorHandler( QProcess::ProcessError Error );
 
 };
 

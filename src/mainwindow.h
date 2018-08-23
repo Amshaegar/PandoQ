@@ -51,6 +51,8 @@ private slots:
     void aboutPandoQ();
     void aboutPandoc(QString message);
 
+    void pandocThreadErrorHandler(QString errorMessage);
+
 };
 
 #endif // MAINWINDOW_H
