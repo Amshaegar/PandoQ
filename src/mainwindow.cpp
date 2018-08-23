@@ -62,14 +62,14 @@ void MainWindow::aboutPandoc(QString message)
 
 void MainWindow::aboutPandoQ()
 {
-    QString aboutPandoQText =tr( "PandoQ is the Qt GUI frontend for Pandoc written by using C++ language.\n" \
-                                 "Copyright 2015,2018 Maxim Fedotov (fedotovmo@gmail.com)\n" \
-                                 "This is free software, and you are welcome to redistribute it under certain conditions. \n"\
-                                 "This program comes with ABSOLUTELY NO WARRANTY.\n" \
-                                 "See the GNU General Public License for more details.\n");
+    QString aboutPandoQText =tr( "PandoQ is the Qt GUI frontend for Pandoc written by using C++ language.\n\n" \
+                                 "This is free software, and you are welcome to redistribute it under certain conditions.\n\n" \
+                                 "This program comes with ABSOLUTELY NO WARRANTY.\n\n"\
+                                 "See the GNU General Public License for more details.\n\n" \
+                                 "Copyright 2015,2018 Maxim Fedotov (fedotovmo@gmail.com)");
 
     QMessageBox::information(this,
-                             tr("About Pandoc"),
+                             tr("About PandoQ"),
                              aboutPandoQText,
                              QMessageBox::Ok
                              );
