@@ -33,8 +33,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    pandocthread.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    pandocthread.hpp
 
 FORMS    += mainwindow.ui

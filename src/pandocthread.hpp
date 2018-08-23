@@ -19,38 +19,31 @@
  * along with PandoQ.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef PANDOCTHREAD_HPP
+#define PANDOCTHREAD_HPP
 
-#include <QMainWindow>
-#include <QMessageBox>
-#include <QDebug>
-#include <QThread>
-#include "pandocthread.hpp"
+#include <QObject>
+#include <QProcess>
 
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class PandocThread : public QObject
 {
     Q_OBJECT
 
+    QProcess    *aboutPandocProcess;
+
+
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit PandocThread(QObject *parent = nullptr);
+    ~PandocThread();
 
-private:
-    Ui::MainWindow *ui;
-
-    QThread     pandocThreadThread;
+signals:
+    void AboutPandocMessage(QString message);
 
 private slots:
-
-    /* About Section */
-    void aboutPandoQ();
-    void aboutPandoc(QString message);
+    void AboutPandoc();
+    void AboutPandocMessageBox( int ExitCode, QProcess::ExitStatus ExitStatus );
+    void AboutPandocProcessError( QProcess::ProcessError Error );
 
 };
 
-#endif // MAINWINDOW_H
+#endif // PANDOCTHREAD_HPP
