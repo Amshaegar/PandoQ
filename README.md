@@ -17,4 +17,4 @@ PandoQ is distributed in the hope that it will be useful, but WITHOUT ANY WARRAN
 
 You should have received a copy of the GNU General Public License along with PandoQ.  If not, see <https://www.gnu.org/licenses/>.
 
-Copyright 2015,2018 Maxim Fedotov
+Copyright 2015,2018 Maxim Fedotov  (fedotovmo@gmail.com)

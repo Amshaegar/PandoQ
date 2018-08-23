@@ -4,7 +4,7 @@
 #
 #----------------------------------------------------------------------
 #
-# Copyright 2015,2018 Maxim Fedotov
+# Copyright 2015,2018 Maxim Fedotov  (fedotovmo@gmail.com)
 #
 # This file is part of PandoQ.
 #
