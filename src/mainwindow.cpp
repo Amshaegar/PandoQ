@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionExit,         SIGNAL( triggered() ),    qApp,   SLOT( quit()                      )   );
     connect(ui->actionAbout_Pandoc, SIGNAL( triggered() ),    this,   SLOT( AboutPandocProcessStart()   )   );
+    connect(ui->actionAbout_PandoQ, SIGNAL( triggered() ),    this,   SLOT( aboutPandoQ()               )   );
     connect(ui->actionAbout_Qt,     SIGNAL( triggered() ),    qApp,   SLOT( aboutQt()                   )   );
 
 }
@@ -41,7 +42,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-/* About Pandoc Section */
+/* About Section */
 
 void MainWindow::AboutPandocProcessStart()
 {
@@ -79,4 +80,19 @@ void MainWindow::AboutPandocMessageBox( int ExitCode, QProcess::ExitStatus ExitS
                              );
 
 
+}
+
+void MainWindow::aboutPandoQ()
+{
+    QString aboutPandoQText =tr( "PandoQ is the Qt GUI frontend for Pandoc written by using C++ language.\n" \
+                                 "Copyright 2015,2018 Maxim Fedotov (fedotovmo@gmail.com)\n" \
+                                 "This is free software, and you are welcome to redistribute it under certain conditions. \n"\
+                                 "This program comes with ABSOLUTELY NO WARRANTY.\n" \
+                                 "See the GNU General Public License for more details.\n");
+
+    QMessageBox::information(this,
+                             tr("About Pandoc"),
+                             aboutPandoQText,
+                             QMessageBox::Ok
+                             );
 }

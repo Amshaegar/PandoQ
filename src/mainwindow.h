@@ -44,10 +44,11 @@ private:
 
 private slots:
 
-    /* About Pandoc Section */
+    /* About Section */
     void AboutPandocProcessStart();
     void AboutPandocMessageBox( int ExitCode, QProcess::ExitStatus ExitStatus );
     void AboutPandocProcessError( QProcess::ProcessError Error );
+    void aboutPandoQ();
 
 };
 

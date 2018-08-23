@@ -138,7 +138,7 @@
      <x>0</x>
      <y>0</y>
      <width>641</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -157,6 +157,7 @@
      <string>About</string>
     </property>
     <addaction name="actionAbout_Pandoc"/>
+    <addaction name="actionAbout_PandoQ"/>
     <addaction name="actionAbout_Qt"/>
    </widget>
    <addaction name="menuFile"/>
@@ -191,6 +192,11 @@
   <action name="actionAbout_Pandoc">
    <property name="text">
     <string>About Pandoc</string>
+   </property>
+  </action>
+  <action name="actionAbout_PandoQ">
+   <property name="text">
+    <string>About PandoQ</string>
    </property>
   </action>
  </widget>
