@@ -1,5 +1,7 @@
 /*
- * Copyright 2015,2018 Maxim Fedotov (fedotovmo@gmail.com)
+ * PandoQ is the Qt GUI frontend for Pandoc written by using C++ language.
+ *
+ * Copyright 2015,2018 Maxim Fedotov  (fedotovmo@gmail.com)
  *
  * This file is part of PandoQ.
  *
