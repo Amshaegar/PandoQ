@@ -33,7 +33,18 @@ class PandocThread : public QObject
 {
     Q_OBJECT
 
+    /** Pandoc process for getting information about Pandoc.
+     */
     QProcess*    aboutPandocProcess;
+
+    /** Pandoc process for getting the list of supported input formats.
+     */
+    QProcess*    inputFormatsPandocProcess;
+
+    /** Pandoc process for getting the list of supported output formats.
+     */
+    QProcess*    outputFormatsPandocProcess;
+
 
 
 public:
@@ -41,11 +52,19 @@ public:
 
 signals:
     void AboutPandocMessage(QString message);
+    void InputFormatsPandocMessage(QStringList inputFormats);
+    void OutputFormatsPandocMessage(QStringList outputFormats);
     void ErrorHappened(QString message);
 
 private slots:
+    // Slots for getting external signals
     void AboutPandoc();
+    void GetIOFormats();
+
+    // Slots for getting internal signals
     void AboutPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus );
+    void InputFormatsPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus );
+    void OutputFormatsPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus );
     void ErrorHandler( QProcess::ProcessError Error );
 
 };

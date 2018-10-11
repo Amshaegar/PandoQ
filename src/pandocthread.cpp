@@ -22,12 +22,22 @@
 #include "pandocthread.hpp"
 
 PandocThread::PandocThread(QObject *parent) : QObject(parent),
-                                              aboutPandocProcess(new QProcess(this))
+                                              aboutPandocProcess(new QProcess(this)),
+                                              inputFormatsPandocProcess(new QProcess(this)),
+                                              outputFormatsPandocProcess(new QProcess(this))
 {
+    // About Pandoc signal handlers
     connect(aboutPandocProcess, SIGNAL( finished( int, QProcess::ExitStatus ) ),    this,   SLOT( AboutPandocInfo( int, QProcess::ExitStatus ) )  );
     connect(aboutPandocProcess, SIGNAL( error( QProcess::ProcessError )  ),         this,   SLOT( ErrorHandler(QProcess::ProcessError) )     );
+
+    // Input/ouptut formats signal handlers
+    connect(inputFormatsPandocProcess,  SIGNAL( finished( int, QProcess::ExitStatus ) ),    this,   SLOT( InputFormatsPandocInfo( int, QProcess::ExitStatus ) ) );
+    connect(inputFormatsPandocProcess,  SIGNAL( error( QProcess::ProcessError )  ),         this,   SLOT( ErrorHandler(QProcess::ProcessError) )                );
+    connect(outputFormatsPandocProcess, SIGNAL( finished( int, QProcess::ExitStatus ) ),    this,   SLOT( OutputFormatsPandocInfo( int, QProcess::ExitStatus ) ));
+    connect(outputFormatsPandocProcess, SIGNAL( error( QProcess::ProcessError )  ),         this,   SLOT( ErrorHandler(QProcess::ProcessError) )                );
 }
 
+// Slots for getting external signals
 void PandocThread::AboutPandoc()
 {
     QStringList arg;
@@ -35,14 +45,18 @@ void PandocThread::AboutPandoc()
     aboutPandocProcess->start( "pandoc", arg );
 }
 
-void PandocThread::ErrorHandler( QProcess::ProcessError Error )
+void PandocThread::GetIOFormats()
 {
-    if ( Error == QProcess::FailedToStart )
-    {
-        emit ErrorHappened(tr("Can not start Pandoc proccess. Check the pandoc software availability."));
-    }
+    QStringList arg;
+    arg << "--list-input-formats";
+    inputFormatsPandocProcess->start( "pandoc", arg );
+
+    arg.clear();
+    arg << "--list-output-formats";
+    outputFormatsPandocProcess->start( "pandoc", arg );
 }
 
+// Slots for getting internal signals
 void PandocThread::AboutPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus )
 {
     if (ExitStatus == QProcess::CrashExit)
@@ -56,4 +70,42 @@ void PandocThread::AboutPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatu
 
     QString message = aboutPandocProcess->readAllStandardOutput().data();
     emit AboutPandocMessage( message );
+}
+
+void PandocThread::InputFormatsPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus )
+{
+    if (ExitStatus == QProcess::CrashExit)
+    {
+        emit ErrorHappened(tr("Pandoc crashed."));
+    }
+    else if (ExitCode != 0)
+    {
+        emit ErrorHappened(tr("Pandoc showing version information failed."));
+    }
+
+    QStringList inputFormats = QString(inputFormatsPandocProcess->readAllStandardOutput().data()).split("\r\n");
+    emit InputFormatsPandocMessage(inputFormats);
+}
+
+void PandocThread::OutputFormatsPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus )
+{
+    if (ExitStatus == QProcess::CrashExit)
+    {
+        emit ErrorHappened(tr("Pandoc crashed."));
+    }
+    else if (ExitCode != 0)
+    {
+        emit ErrorHappened(tr("Pandoc showing version information failed."));
+    }
+
+    QStringList outputFormats = QString(outputFormatsPandocProcess->readAllStandardOutput().data()).split("\r\n");
+    emit OutputFormatsPandocMessage(outputFormats);
+}
+
+void PandocThread::ErrorHandler( QProcess::ProcessError Error )
+{
+    if ( Error == QProcess::FailedToStart )
+    {
+        emit ErrorHappened(tr("Can not start Pandoc proccess. Check the pandoc software availability."));
+    }
 }

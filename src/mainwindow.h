@@ -53,8 +53,14 @@ private slots:
     void aboutPandoQ(); /*< Slot that shows information about PandoQ.*/
     void aboutPandoc(QString message); /*< Slot that shows information about Pandoc.*/
 
+    /* IOFormats section */
+    void inputFormats(QStringList inputFormats);
+    void outputFormats(QStringList outputFormats);
+
     void pandocThreadErrorHandler(QString errorMessage); /*< Slot that handle errors sent by Pandoc thread.*/
 
+signals:
+    void getIOFormats();
 };
 
 #endif // MAINWINDOW_H

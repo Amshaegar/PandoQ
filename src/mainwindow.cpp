@@ -39,7 +39,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionAbout_PandoQ, SIGNAL( triggered() ),                 this,                 SLOT( aboutPandoQ()        )   );
     connect(ui->actionAbout_Qt,     SIGNAL( triggered() ),                 qApp,                 SLOT( aboutQt()            )   );
 
+    connect(this,               SIGNAL( getIOFormats() ),                           pandocThreadWorker,   SLOT( GetIOFormats())             );
+    connect(pandocThreadWorker, SIGNAL( InputFormatsPandocMessage(QStringList)),    this,                 SLOT( inputFormats(QStringList))  );
+    connect(pandocThreadWorker, SIGNAL( OutputFormatsPandocMessage(QStringList)),   this,                 SLOT( outputFormats(QStringList)) );
+
     connect(pandocThreadWorker, SIGNAL( ErrorHappened(QString) ),   this,   SLOT( pandocThreadErrorHandler(QString))   );
+
+    emit getIOFormats();
 }
 
 MainWindow::~MainWindow()
@@ -73,6 +79,17 @@ void MainWindow::aboutPandoQ()
                              aboutPandoQText,
                              QMessageBox::Ok
                              );
+}
+
+/* IOFormats section */
+void MainWindow::inputFormats(QStringList inputFormats)
+{
+    ui->FromTypeComboBox->insertItems(0,inputFormats);
+}
+
+void MainWindow::outputFormats(QStringList outputFormats)
+{
+    ui->ToTypeComboBox->insertItems(0,outputFormats);
 }
 
 void MainWindow::pandocThreadErrorHandler(QString errorMessage)
