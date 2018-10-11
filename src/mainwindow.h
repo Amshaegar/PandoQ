@@ -32,6 +32,8 @@ namespace Ui {
 class MainWindow;
 }
 
+/** Main window class.
+  */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -43,15 +45,15 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    QThread     pandocThreadThread;
+    QThread     pandocThreadThread; /*< Thread that works with Pandoc CLI. All communication with it made by signal/slots.*/
 
 private slots:
 
     /* About Section */
-    void aboutPandoQ();
-    void aboutPandoc(QString message);
+    void aboutPandoQ(); /*< Slot that shows information about PandoQ.*/
+    void aboutPandoc(QString message); /*< Slot that shows information about Pandoc.*/
 
-    void pandocThreadErrorHandler(QString errorMessage);
+    void pandocThreadErrorHandler(QString errorMessage); /*< Slot that handle errors sent by Pandoc thread.*/
 
 };
 

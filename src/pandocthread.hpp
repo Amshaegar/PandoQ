@@ -25,6 +25,10 @@
 #include <QObject>
 #include <QProcess>
 
+/** Class that is working with Pandoc CLI.
+  * Run in a separate than Main Window thread.
+  */
+
 class PandocThread : public QObject
 {
     Q_OBJECT
