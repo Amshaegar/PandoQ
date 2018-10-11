@@ -105,6 +105,8 @@ void PandocThread::InputFormatsPandocInfo( int ExitCode, QProcess::ExitStatus Ex
     }
 
     QStringList inputFormats = QString(inputFormatsPandocProcess->readAllStandardOutput().data()).split("\r\n");
+    if (!inputFormats.isEmpty())
+        inputFormats.removeLast();
     emit InputFormatsPandocMessage(inputFormats);
 }
 
@@ -122,6 +124,8 @@ void PandocThread::OutputFormatsPandocInfo( int ExitCode, QProcess::ExitStatus E
     }
 
     QStringList outputFormats = QString(outputFormatsPandocProcess->readAllStandardOutput().data()).split("\r\n");
+    if (!outputFormats.isEmpty())
+        outputFormats.removeLast();
     emit OutputFormatsPandocMessage(outputFormats);
 }
 
