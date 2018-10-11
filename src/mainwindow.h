@@ -26,6 +26,8 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QThread>
+#include <QFile>
+#include <QDir>
 #include "pandocthread.hpp"
 
 namespace Ui {
@@ -57,10 +59,18 @@ private slots:
     void inputFormats(QStringList inputFormats);
     void outputFormats(QStringList outputFormats);
 
+    void converted();
+
     void pandocThreadErrorHandler(QString errorMessage); /*< Slot that handle errors sent by Pandoc thread.*/
+
+    void on_ConvertPushButton_clicked();
 
 signals:
     void getIOFormats();
+    void Convert(QString inputFormat,
+                 QString outputFormat,
+                 QString inputFile,
+                 QString outputFile);
 };
 
 #endif // MAINWINDOW_H

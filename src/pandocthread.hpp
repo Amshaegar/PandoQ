@@ -45,6 +45,10 @@ class PandocThread : public QObject
      */
     QProcess*    outputFormatsPandocProcess;
 
+    /** Pandoc process that converts the text.
+     */
+    QProcess*    convertPandocProcess;
+
 
 
 public:
@@ -54,17 +58,23 @@ signals:
     void AboutPandocMessage(QString message);
     void InputFormatsPandocMessage(QStringList inputFormats);
     void OutputFormatsPandocMessage(QStringList outputFormats);
+    void OutputConvertPandocMessage();
     void ErrorHappened(QString message);
 
 private slots:
     // Slots for getting external signals
     void AboutPandoc();
     void GetIOFormats();
+    void Convert(QString inputFormat,
+                 QString outputFormat,
+                 QString inputFile,
+                 QString outputFile);
 
     // Slots for getting internal signals
     void AboutPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus );
     void InputFormatsPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus );
     void OutputFormatsPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus );
+    void ConvertPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus );
     void ErrorHandler( QProcess::ProcessError Error );
 
 };

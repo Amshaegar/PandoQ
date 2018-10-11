@@ -39,10 +39,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionAbout_PandoQ, SIGNAL( triggered() ),                 this,                 SLOT( aboutPandoQ()        )   );
     connect(ui->actionAbout_Qt,     SIGNAL( triggered() ),                 qApp,                 SLOT( aboutQt()            )   );
 
+    // Pandoc input/output formats
     connect(this,               SIGNAL( getIOFormats() ),                           pandocThreadWorker,   SLOT( GetIOFormats())             );
     connect(pandocThreadWorker, SIGNAL( InputFormatsPandocMessage(QStringList)),    this,                 SLOT( inputFormats(QStringList))  );
     connect(pandocThreadWorker, SIGNAL( OutputFormatsPandocMessage(QStringList)),   this,                 SLOT( outputFormats(QStringList)) );
 
+    // Pandoc convert
+    connect(this,  SIGNAL( Convert(QString,QString,QString,QString)),   pandocThreadWorker,   SLOT( Convert(QString,QString,QString,QString))   );
+    connect(pandocThreadWorker, SIGNAL( OutputConvertPandocMessage()),  this,                 SLOT( converted() )                               );
+
+    // Pandoc error handler
     connect(pandocThreadWorker, SIGNAL( ErrorHappened(QString) ),   this,   SLOT( pandocThreadErrorHandler(QString))   );
 
     emit getIOFormats();
@@ -92,6 +98,23 @@ void MainWindow::outputFormats(QStringList outputFormats)
     ui->ToTypeComboBox->insertItems(0,outputFormats);
 }
 
+void MainWindow::converted()
+{
+    ui->ToPlainTextEdit->clear();
+
+    QFile file("output");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        ui->ToPlainTextEdit->appendPlainText(line);
+    }
+
+    ui->ConvertPushButton->setEnabled(true);
+}
+
 void MainWindow::pandocThreadErrorHandler(QString errorMessage)
 {
     QMessageBox::warning(this,
@@ -99,4 +122,28 @@ void MainWindow::pandocThreadErrorHandler(QString errorMessage)
                          errorMessage,
                          QMessageBox::Ok
                          );
+}
+
+void MainWindow::on_ConvertPushButton_clicked()
+{
+    QString inputFormat = ui->FromTypeComboBox->currentText();
+    QString outputFormat = ui->ToTypeComboBox->currentText();
+
+    QFile input("input");
+    if (!input.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
+    QTextStream in(&input);
+    in << "";
+    in << ui->FromPlainTextEdit->toPlainText();
+    input.close();
+
+    QFile output("output");
+    if (!output.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
+    QTextStream out(&output);
+    out << "";
+    output.close();
+
+    emit Convert(inputFormat, outputFormat, "input", "output");
+    ui->ConvertPushButton->setDisabled(true);
 }

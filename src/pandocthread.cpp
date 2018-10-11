@@ -24,7 +24,8 @@
 PandocThread::PandocThread(QObject *parent) : QObject(parent),
                                               aboutPandocProcess(new QProcess(this)),
                                               inputFormatsPandocProcess(new QProcess(this)),
-                                              outputFormatsPandocProcess(new QProcess(this))
+                                              outputFormatsPandocProcess(new QProcess(this)),
+                                              convertPandocProcess(new QProcess(this))
 {
     // About Pandoc signal handlers
     connect(aboutPandocProcess, SIGNAL( finished( int, QProcess::ExitStatus ) ),    this,   SLOT( AboutPandocInfo( int, QProcess::ExitStatus ) )  );
@@ -35,6 +36,11 @@ PandocThread::PandocThread(QObject *parent) : QObject(parent),
     connect(inputFormatsPandocProcess,  SIGNAL( error( QProcess::ProcessError )  ),         this,   SLOT( ErrorHandler(QProcess::ProcessError) )                );
     connect(outputFormatsPandocProcess, SIGNAL( finished( int, QProcess::ExitStatus ) ),    this,   SLOT( OutputFormatsPandocInfo( int, QProcess::ExitStatus ) ));
     connect(outputFormatsPandocProcess, SIGNAL( error( QProcess::ProcessError )  ),         this,   SLOT( ErrorHandler(QProcess::ProcessError) )                );
+
+    // Convert
+    connect(convertPandocProcess, SIGNAL( finished( int, QProcess::ExitStatus )  ), this,   SLOT( ConvertPandocInfo(int,QProcess::ExitStatus))  );
+    connect(convertPandocProcess, SIGNAL( error( QProcess::ProcessError )  ),       this,   SLOT( ErrorHandler(QProcess::ProcessError) )        );
+
 }
 
 // Slots for getting external signals
@@ -56,16 +62,29 @@ void PandocThread::GetIOFormats()
     outputFormatsPandocProcess->start( "pandoc", arg );
 }
 
+void PandocThread::Convert(QString inputFormat,
+                           QString outputFormat,
+                           QString inputFile,
+                           QString outputFile)
+{
+    QStringList arg;
+    arg << inputFile << "--from" << inputFormat <<"--to" << outputFormat << "-o" << outputFile;
+    convertPandocProcess->start( "pandoc", arg );
+}
+
+
 // Slots for getting internal signals
 void PandocThread::AboutPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus )
 {
     if (ExitStatus == QProcess::CrashExit)
     {
         emit ErrorHappened(tr("Pandoc crashed."));
+        return;
     }
     else if (ExitCode != 0)
     {
         emit ErrorHappened(tr("Pandoc showing version information failed."));
+        return;
     }
 
     QString message = aboutPandocProcess->readAllStandardOutput().data();
@@ -77,10 +96,12 @@ void PandocThread::InputFormatsPandocInfo( int ExitCode, QProcess::ExitStatus Ex
     if (ExitStatus == QProcess::CrashExit)
     {
         emit ErrorHappened(tr("Pandoc crashed."));
+        return;
     }
     else if (ExitCode != 0)
     {
         emit ErrorHappened(tr("Pandoc showing version information failed."));
+        return;
     }
 
     QStringList inputFormats = QString(inputFormatsPandocProcess->readAllStandardOutput().data()).split("\r\n");
@@ -92,14 +113,32 @@ void PandocThread::OutputFormatsPandocInfo( int ExitCode, QProcess::ExitStatus E
     if (ExitStatus == QProcess::CrashExit)
     {
         emit ErrorHappened(tr("Pandoc crashed."));
+        return;
     }
     else if (ExitCode != 0)
     {
         emit ErrorHappened(tr("Pandoc showing version information failed."));
+        return;
     }
 
     QStringList outputFormats = QString(outputFormatsPandocProcess->readAllStandardOutput().data()).split("\r\n");
     emit OutputFormatsPandocMessage(outputFormats);
+}
+
+void PandocThread::ConvertPandocInfo( int ExitCode, QProcess::ExitStatus ExitStatus )
+{
+    if (ExitStatus == QProcess::CrashExit)
+    {
+        emit ErrorHappened(tr("Pandoc crashed."));
+        return;
+    }
+    else if (ExitCode != 0)
+    {
+        emit ErrorHappened(tr("Pandoc showing version information failed."));
+        return;
+    }
+
+    emit OutputConvertPandocMessage();
 }
 
 void PandocThread::ErrorHandler( QProcess::ProcessError Error )
