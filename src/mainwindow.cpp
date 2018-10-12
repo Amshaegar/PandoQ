@@ -90,12 +90,14 @@ void MainWindow::aboutPandoQ()
 /* IOFormats section */
 void MainWindow::inputFormats(QStringList inputFormats)
 {
-    ui->FromTypeComboBox->insertItems(0,inputFormats);
+    ui->FromTextTypeComboBox->insertItems(0,inputFormats);
+    ui->FromFileTypeComboBox->insertItems(0,inputFormats);
 }
 
 void MainWindow::outputFormats(QStringList outputFormats)
 {
-    ui->ToTypeComboBox->insertItems(0,outputFormats);
+    ui->ToTextTypeComboBox->insertItems(0,outputFormats);
+    ui->ToFileTypeComboBox->insertItems(0,outputFormats);
 }
 
 void MainWindow::converted()
@@ -112,7 +114,8 @@ void MainWindow::converted()
         ui->ToPlainTextEdit->appendPlainText(line);
     }
 
-    ui->ConvertPushButton->setEnabled(true);
+    ui->ConvertTextPushButton->setEnabled(true);
+    ui->ConvertFilePushButton->setEnabled(true);
 }
 
 void MainWindow::pandocThreadErrorHandler(QString errorMessage)
@@ -124,10 +127,10 @@ void MainWindow::pandocThreadErrorHandler(QString errorMessage)
                          );
 }
 
-void MainWindow::on_ConvertPushButton_clicked()
+void MainWindow::on_ConvertTextPushButton_clicked()
 {
-    QString inputFormat = ui->FromTypeComboBox->currentText();
-    QString outputFormat = ui->ToTypeComboBox->currentText();
+    QString inputFormat = ui->FromTextTypeComboBox->currentText();
+    QString outputFormat = ui->ToTextTypeComboBox->currentText();
 
     QFile input("input");
     if (!input.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -145,5 +148,30 @@ void MainWindow::on_ConvertPushButton_clicked()
     output.close();
 
     emit Convert(inputFormat, outputFormat, "input", "output");
-    ui->ConvertPushButton->setDisabled(true);
+    ui->ConvertTextPushButton->setDisabled(true);
+}
+
+void MainWindow::on_ChooseFileFromPushButton_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+             tr("Open File From"), "", "");
+    ui->PathToFileFromLineEdit->setText(fileName);
+}
+
+void MainWindow::on_ChooseFileToPushButton_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+             tr("Open File To"), "", "");
+    ui->PathToFileToLineEdit->setText(fileName);
+}
+
+void MainWindow::on_ConvertFilePushButton_clicked()
+{
+    QString inputFormat = ui->FromFileTypeComboBox->currentText();
+    QString outputFormat = ui->ToFileTypeComboBox->currentText();
+    QString inputFile = ui->PathToFileFromLineEdit->text();
+    QString outputFile = ui->PathToFileToLineEdit->text();
+
+    emit Convert(inputFormat, outputFormat, inputFile, outputFile);
+    ui->ConvertFilePushButton->setDisabled(true);
 }

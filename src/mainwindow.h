@@ -27,7 +27,7 @@
 #include <QDebug>
 #include <QThread>
 #include <QFile>
-#include <QDir>
+#include <QFileDialog>
 #include "pandocthread.hpp"
 
 namespace Ui {
@@ -63,7 +63,13 @@ private slots:
 
     void pandocThreadErrorHandler(QString errorMessage); /*< Slot that handle errors sent by Pandoc thread.*/
 
-    void on_ConvertPushButton_clicked();
+    void on_ConvertTextPushButton_clicked();
+
+    void on_ChooseFileFromPushButton_clicked();
+
+    void on_ChooseFileToPushButton_clicked();
+
+    void on_ConvertFilePushButton_clicked();
 
 signals:
     void getIOFormats();
