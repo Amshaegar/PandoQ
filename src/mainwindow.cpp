@@ -61,6 +61,14 @@ MainWindow::~MainWindow()
     pandocThreadThread.wait();
 }
 
+void MainWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    } else
+        QWidget::changeEvent(event);
+}
+
 /* About Section */
 
 void MainWindow::aboutPandoc(QString message)

@@ -54,6 +54,8 @@ private:
 
     QThread     pandocThreadThread; /*< Thread that works with Pandoc CLI. All communication with it made by signal/slots.*/
 
+    void changeEvent(QEvent *event); /*< Reimplemented for changing the language of the application.*/
+
 private slots:
 
     /* About Section */

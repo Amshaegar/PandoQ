@@ -20,5 +20,21 @@ void Settings::on_CancelPushButton_clicked()
 
 void Settings::on_SavePushButton_clicked()
 {
+    switch (ui->LangugesComboBox->currentIndex())
+    {
+        case 1: translator.load("./languages/pandoq_ru");
+                QCoreApplication::installTranslator(&translator);
+                break;
+    }
+
+
     this->close();
+}
+
+void Settings::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    } else
+        QWidget::changeEvent(event);
 }
