@@ -38,7 +38,7 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <layout class="QHBoxLayout" name="PathFileFromHLayout">
              <item>
               <widget class="QLineEdit" name="PathToFileFromLineEdit"/>
              </item>
@@ -57,7 +57,7 @@
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <layout class="QHBoxLayout" name="FormatFromFileHLayout">
              <item>
               <spacer name="FromFileLeftHSpacer">
                <property name="orientation">
@@ -128,7 +128,7 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <layout class="QHBoxLayout" name="PathFileToHLayout">
              <item>
               <widget class="QLineEdit" name="PathToFileToLineEdit"/>
              </item>
@@ -142,7 +142,7 @@
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <layout class="QHBoxLayout" name="FormatToFileHLayout">
              <item>
               <spacer name="ToFileLeftHSpacer">
                <property name="orientation">
@@ -237,7 +237,7 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="FormatHLayout_2">
+            <layout class="QHBoxLayout" name="FormatFromTextHLayout">
              <item>
               <spacer name="FromTextLeftHSpacer">
                <property name="orientation">
@@ -321,7 +321,7 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="FormatHLayout">
+            <layout class="QHBoxLayout" name="FormatToTextHLayout">
              <item>
               <spacer name="ToTextLeftHSpacer">
                <property name="orientation">
