@@ -175,3 +175,8 @@ void MainWindow::on_ConvertFilePushButton_clicked()
     emit Convert(inputFormat, outputFormat, inputFile, outputFile);
     ui->ConvertFilePushButton->setDisabled(true);
 }
+
+void MainWindow::on_actionConfigure_PandoQ_triggered()
+{
+    settingsWidget.show();
+}

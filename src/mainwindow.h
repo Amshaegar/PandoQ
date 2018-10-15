@@ -36,6 +36,9 @@ class MainWindow;
 
 /** Main window class.
   */
+
+#include "settings.hpp"
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -46,6 +49,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    Settings    settingsWidget;
 
     QThread     pandocThreadThread; /*< Thread that works with Pandoc CLI. All communication with it made by signal/slots.*/
 
@@ -70,6 +75,8 @@ private slots:
     void on_ChooseFileToPushButton_clicked();
 
     void on_ConvertFilePushButton_clicked();
+
+    void on_actionConfigure_PandoQ_triggered();
 
 signals:
     void getIOFormats();

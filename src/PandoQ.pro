@@ -34,9 +34,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    pandocthread.cpp
+    pandocthread.cpp \
+    settings.cpp
 
 HEADERS  += mainwindow.h \
-    pandocthread.hpp
+    pandocthread.hpp \
+    settings.hpp
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    settings.ui
