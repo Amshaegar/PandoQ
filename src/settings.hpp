@@ -49,7 +49,6 @@ private slots:
 private:
     Ui::Settings *ui;
     QTranslator translator;
-    QSettings settings;
     QString language;
     void changeEvent(QEvent *event); /*< Reimplemented for changing the language of the application.*/
 };

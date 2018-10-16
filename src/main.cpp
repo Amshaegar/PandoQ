@@ -31,9 +31,7 @@ int main(int argc, char *argv[])
     MainWindow w;
 
     // Settings section
-    QCoreApplication::setOrganizationName("PandoQ");
-    QCoreApplication::setApplicationName("PandoQ");
-    QSettings settings;
+    QSettings settings("PandoQ", "PandoQ");
 
     // Translation section
     QTranslator translator;

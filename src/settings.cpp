@@ -7,6 +7,7 @@ Settings::Settings(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QSettings settings("PandoQ", "PandoQ");
     language = settings.value("language","en").toString();
     if (language.compare("en") == 0)
         ui->LangugesComboBox->setCurrentIndex(0);
@@ -26,6 +27,7 @@ void Settings::on_CancelPushButton_clicked()
 
 void Settings::on_SavePushButton_clicked()
 {
+    QSettings settings("PandoQ", "PandoQ");
     switch (ui->LangugesComboBox->currentIndex())
     {
         case 0: translator.load("./languages/pandoq_en");
