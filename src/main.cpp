@@ -34,11 +34,12 @@ int main(int argc, char *argv[])
     QSettings settings("PandoQ","PandoQ");
     QString lang = settings.value("language","en").toString();
 
-    if(lang.compare("ru") == 0)
-    {
+    if(lang.compare("en") == 0)
+        translator.load("./languages/pandoq_en");
+    else if(lang.compare("ru") == 0)
         translator.load("./languages/pandoq_ru");
-        QCoreApplication::installTranslator(&translator);
-    }
+
+    QCoreApplication::installTranslator(&translator);
 
 
     try

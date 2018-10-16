@@ -24,11 +24,15 @@ void Settings::on_SavePushButton_clicked()
 
     switch (ui->LangugesComboBox->currentIndex())
     {
+        case 0: translator.load("./languages/pandoq_en");
+                settings.setValue("language", "en");
+                break;
         case 1: translator.load("./languages/pandoq_ru");
-                QCoreApplication::installTranslator(&translator);
                 settings.setValue("language", "ru");
                 break;
     }
+
+    QCoreApplication::installTranslator(&translator);
 
 
     this->close();

@@ -44,4 +44,5 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     settings.ui
 
-TRANSLATIONS = ./languages/pandoq_ru.ts
+TRANSLATIONS =  ./languages/pandoq_ru.ts \
+                ./languages/pandoq_en.ts
