@@ -73,11 +73,7 @@ void MainWindow::changeEvent(QEvent *event)
 
 void MainWindow::aboutPandoc(QString message)
 {
-    QMessageBox::information(this,
-                             tr("About Pandoc"),
-                             message,
-                             QMessageBox::Ok
-                             );
+    QMessageBox::about(this, tr("About Pandoc"), message);
 }
 
 void MainWindow::aboutPandoQ()
@@ -88,11 +84,7 @@ void MainWindow::aboutPandoQ()
                                  "See the GNU General Public License for more details.\n\n" \
                                  "Copyright 2015,2018 Maxim Fedotov (fedotovmo@gmail.com)");
 
-    QMessageBox::information(this,
-                             tr("About PandoQ"),
-                             aboutPandoQText,
-                             QMessageBox::Ok
-                             );
+    QMessageBox::about(this,tr("About PandoQ"),aboutPandoQText);
 }
 
 /* IOFormats section */
