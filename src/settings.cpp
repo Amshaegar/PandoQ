@@ -20,10 +20,13 @@ void Settings::on_CancelPushButton_clicked()
 
 void Settings::on_SavePushButton_clicked()
 {
+    QSettings settings("PandoQ","PandoQ");
+
     switch (ui->LangugesComboBox->currentIndex())
     {
         case 1: translator.load("./languages/pandoq_ru");
                 QCoreApplication::installTranslator(&translator);
+                settings.setValue("language", "ru");
                 break;
     }
 

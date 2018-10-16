@@ -23,6 +23,7 @@
 #define SETTINGS_HPP
 
 #include <QWidget>
+#include <QSettings>
 #include <QTranslator>
 
 namespace Ui {

@@ -22,11 +22,24 @@
 #include <iostream>
 #include "mainwindow.h"
 #include <QApplication>
+#include <QSettings>
+#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+
+    QTranslator translator;
+    QSettings settings("PandoQ","PandoQ");
+    QString lang = settings.value("language","en").toString();
+
+    if(lang.compare("ru") == 0)
+    {
+        translator.load("./languages/pandoq_ru");
+        QCoreApplication::installTranslator(&translator);
+    }
+
 
     try
     {
