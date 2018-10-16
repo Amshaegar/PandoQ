@@ -102,17 +102,21 @@ void MainWindow::outputFormats(QStringList outputFormats)
 
 void MainWindow::converted()
 {
-    ui->ToPlainTextEdit->clear();
-
-    QFile file("output");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
-
-    QTextStream in(&file);
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        ui->ToPlainTextEdit->appendPlainText(line);
+    QFile output("output");
+    if (output.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        ui->ToPlainTextEdit->clear();
+        QTextStream in(&output);
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            ui->ToPlainTextEdit->appendPlainText(line);
+        }
+        output.close();
     }
+
+    // Clean after convertation - remove temporary files.
+    QFile::remove("output");
+    QFile::remove("input");
 
     ui->ConvertTextPushButton->setEnabled(true);
     ui->ConvertFilePushButton->setEnabled(true);
